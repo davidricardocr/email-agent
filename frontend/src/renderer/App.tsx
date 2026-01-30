@@ -1,14 +1,43 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { LandingPage } from './components/Landing/LandingPage'
 import { ConfigurationWizard } from './components/Landing/ConfigurationWizard'
+import { NotificationPopup } from './components/Notification'
+import { ResponseViewer, ResponseEditor } from './components/Response'
 import { useSettingsStore } from './store/settingsStore'
+import { useNotificationStore } from './store/notificationStore'
+import { useEmailStore } from './store/emailStore'
 import { useTheme, useEmailMonitor } from './hooks'
 import './i18n/config'
 
-// Main App component (placeholder for now)
+type ResponseMode = 'none' | 'viewing' | 'editing'
+
+// Main App component
 const MainApp: React.FC = () => {
   const { checkForNewEmails } = useEmailMonitor()
+  const { currentNotification } = useNotificationStore()
+  const { currentEmail, setCurrentEmail, clearCurrent } = useEmailStore()
+  const [responseMode, setResponseMode] = useState<ResponseMode>('none')
+
+  const handlePrepareResponse = () => {
+    if (currentNotification) {
+      setCurrentEmail(currentNotification.email, currentNotification.summary)
+      setResponseMode('viewing')
+    }
+  }
+
+  const handleEditDraft = () => {
+    setResponseMode('editing')
+  }
+
+  const handleBackToViewer = () => {
+    setResponseMode('viewing')
+  }
+
+  const handleCancel = () => {
+    setResponseMode('none')
+    clearCurrent()
+  }
 
   return (
     <div className="min-h-screen bg-bg-primary text-text-primary p-4">
@@ -21,6 +50,21 @@ const MainApp: React.FC = () => {
           Monitoring inbox for new emails...
         </p>
       </div>
+
+      {/* Notification Popup */}
+      {currentNotification && responseMode === 'none' && (
+        <NotificationPopup onPrepareResponse={handlePrepareResponse} />
+      )}
+
+      {/* Response Viewer */}
+      {responseMode === 'viewing' && currentEmail && (
+        <ResponseViewer onEdit={handleEditDraft} onCancel={handleCancel} />
+      )}
+
+      {/* Response Editor */}
+      {responseMode === 'editing' && currentEmail && (
+        <ResponseEditor onBack={handleBackToViewer} onCancel={handleCancel} />
+      )}
     </div>
   )
 }
