@@ -61,12 +61,10 @@ async def health():
 
 
 # Import and include API routers
-from app.api import emails
+from app.api import agent, emails
 
 app.include_router(emails.router, prefix="/api/emails", tags=["emails"])
-# TODO: Add agent and chat routers when implemented
-# app.include_router(agent.router, prefix="/api/agent", tags=["agent"])
-# app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
+app.include_router(agent.router, prefix="/api/agent", tags=["agent"])
 
 
 if __name__ == "__main__":
