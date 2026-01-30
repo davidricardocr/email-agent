@@ -27,7 +27,7 @@ class Settings(BaseSettings):
 
     # LLM Configuration
     anthropic_api_key: str
-    llm_model: str = "claude-3-5-sonnet-20241022"
+    llm_model: str = "claude-3-haiku-20240307"
     llm_temperature: float = 0.7
     llm_max_tokens: int = 4096
 
