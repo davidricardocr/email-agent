@@ -100,7 +100,8 @@
   "errors": {
     "networkError": "Error de red. Por favor verifica tu conexión.",
     "apiError": "Error de API. Por favor intenta de nuevo.",
-    "unknown": "Ocurrió un error desconocido."
+    "unknown": "Ocurrió un error desconocido.",
+    "sendFailed": "Error al enviar el correo. Por favor intenta de nuevo."
   },
   "common": {
     "loading": "Cargando...",

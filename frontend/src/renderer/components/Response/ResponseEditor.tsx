@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Button, Input, LoadingSpinner } from '../ui'
 import { useI18n } from '../../hooks'
 import { useEmailStore } from '../../store/emailStore'
+import { useNotificationStore } from '../../store/notificationStore'
 import { agentApi } from '../../api/agent'
+import { emailsApi } from '../../api/emails'
 
 interface ResponseEditorProps {
   onBack: () => void
@@ -21,8 +23,12 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({ onBack, onCancel
     isGenerating,
     setGenerating
   } = useEmailStore()
+  const { dismissCurrent } = useNotificationStore()
 
   const [userMessage, setUserMessage] = useState('')
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [isSending, setIsSending] = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -64,6 +70,50 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({ onBack, onCancel
     }
   }
 
+  const handleSend = () => {
+    setShowConfirm(true)
+  }
+
+  const handleConfirmSend = async () => {
+    if (!currentEmail || !currentDraft) return
+
+    setIsSending(true)
+    setSendError(null)
+
+    try {
+      const replySubject = currentEmail.subject.startsWith('Re:')
+        ? currentEmail.subject
+        : `Re: ${currentEmail.subject}`
+
+      const references = [
+        ...currentEmail.references,
+        currentEmail.message_id
+      ].filter(Boolean)
+
+      await emailsApi.sendEmail({
+        draft: {
+          to: [currentEmail.from],
+          cc: currentEmail.cc,
+          subject: replySubject,
+          body: currentDraft,
+          in_reply_to: currentEmail.message_id,
+          references
+        }
+      })
+
+      await emailsApi.markAsRead(currentEmail.id)
+
+      dismissCurrent()
+      onCancel()
+    } catch (error) {
+      console.error('Failed to send email:', error)
+      setSendError(t('errors.sendFailed'))
+      setShowConfirm(false)
+    } finally {
+      setIsSending(false)
+    }
+  }
+
   const examples = [
     t('chat.examples')[0],
     t('chat.examples')[1],
@@ -81,6 +131,13 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({ onBack, onCancel
         <div className="flex-1 flex overflow-hidden">
           <div className="flex-1 p-6 overflow-y-auto border-r border-border-color">
             <h3 className="font-semibold text-text-primary mb-2">{t('response.draft')}</h3>
+
+            {sendError && (
+              <div className="bg-error-light border border-error rounded-lg p-3 mb-4">
+                <p className="text-error text-sm">{sendError}</p>
+              </div>
+            )}
+
             <div className="bg-bg-secondary rounded-lg p-4">
               <pre className="whitespace-pre-wrap font-sans text-text-primary text-sm">
                 {currentDraft}
@@ -159,11 +216,27 @@ export const ResponseEditor: React.FC<ResponseEditorProps> = ({ onBack, onCancel
             <Button variant="secondary" onClick={onBack}>
               ← {t('config.back')}
             </Button>
-            <Button variant="primary" onClick={() => alert('Send functionality coming soon')}>
+            <Button variant="primary" onClick={handleSend} disabled={!currentDraft}>
               {t('response.send')}
             </Button>
           </div>
         </div>
+
+        {showConfirm && (
+          <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+            <div className="bg-bg-primary rounded-lg p-6 max-w-md">
+              <p className="text-text-primary mb-4">{t('response.sendConfirm')}</p>
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setShowConfirm(false)} disabled={isSending}>
+                  {t('common.no')}
+                </Button>
+                <Button variant="primary" onClick={handleConfirmSend} isLoading={isSending} disabled={isSending}>
+                  {t('common.yes')}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

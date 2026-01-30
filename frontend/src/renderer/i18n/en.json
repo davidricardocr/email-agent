@@ -100,7 +100,8 @@
   "errors": {
     "networkError": "Network error. Please check your connection.",
     "apiError": "API error. Please try again.",
-    "unknown": "An unknown error occurred."
+    "unknown": "An unknown error occurred.",
+    "sendFailed": "Failed to send email. Please try again."
   },
   "common": {
     "loading": "Loading...",
