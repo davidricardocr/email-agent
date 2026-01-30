@@ -1,0 +1,113 @@
+{
+  "landing": {
+    "title": "Bienvenido a Email Agent",
+    "subtitle": "Tu asistente de correo electrónico con IA",
+    "description": "Deja que la IA te ayude a gestionar tu bandeja de entrada de forma inteligente. Genera respuestas profesionales, obtén resúmenes inteligentes y nunca pierdas un correo importante.",
+    "cta": "Configura Tu Asistente Personal de Correo",
+    "features": {
+      "ai": "Respuestas con IA",
+      "smart": "Notificaciones Inteligentes",
+      "privacy": "Privacidad Primero"
+    }
+  },
+  "config": {
+    "title": "Configura Tu Asistente",
+    "step1": "Tono de Email",
+    "step2": "Preferencias",
+    "step3": "¡Listo!",
+    "tone": {
+      "title": "¿Cómo deben sonar tus correos?",
+      "description": "Elige el tono predeterminado para las respuestas generadas",
+      "formal": "Formal",
+      "formalDesc": "Profesional y empresarial",
+      "casual": "Casual",
+      "casualDesc": "Relajado y conversacional",
+      "friendly": "Amigable",
+      "friendlyDesc": "Cálido y cercano",
+      "professional": "Profesional",
+      "professionalDesc": "Equilibrado y claro"
+    },
+    "preferences": {
+      "language": "Idioma",
+      "theme": "Tema",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "notifications": "Habilitar notificaciones",
+      "sound": "Sonido de notificación",
+      "interval": "Revisar correos cada (segundos)"
+    },
+    "finish": {
+      "title": "¡Todo listo!",
+      "description": "Tu asistente de correo con IA está listo para ayudarte a gestionar tu bandeja de entrada.",
+      "start": "Comenzar a Usar Email Agent"
+    },
+    "back": "Atrás",
+    "next": "Siguiente",
+    "finish": "Finalizar"
+  },
+  "notification": {
+    "newEmail": "Nuevo correo de {{sender}}",
+    "prepareResponse": "Preparar Respuesta",
+    "dismiss": "Descartar",
+    "markUnread": "Marcar como No Leído"
+  },
+  "summary": {
+    "from": "De",
+    "subject": "Asunto",
+    "priority": "Prioridad",
+    "sentiment": "Sentimiento",
+    "actionRequired": "Acción Requerida",
+    "suggestedActions": "Acciones Sugeridas",
+    "keyPoints": "Puntos Clave",
+    "low": "Baja",
+    "medium": "Media",
+    "high": "Alta",
+    "positive": "Positivo",
+    "neutral": "Neutral",
+    "negative": "Negativo"
+  },
+  "response": {
+    "generating": "Generando respuesta...",
+    "draft": "Borrador de Respuesta",
+    "edit": "Editar",
+    "send": "Enviar",
+    "cancel": "Cancelar",
+    "sendConfirm": "¿Estás seguro de que quieres enviar este correo?",
+    "sending": "Enviando...",
+    "sent": "¡Correo enviado exitosamente!",
+    "error": "Error al enviar correo",
+    "charCount": "{{count}} caracteres"
+  },
+  "chat": {
+    "placeholder": "Dime cómo ajustar la respuesta...",
+    "refining": "Refinando respuesta...",
+    "instructions": "Chatea con la IA para refinar tu respuesta",
+    "examples": [
+      "Hazlo más corto",
+      "Añade más detalles",
+      "Hazlo más formal",
+      "Sé más amigable"
+    ]
+  },
+  "settings": {
+    "title": "Configuración",
+    "account": "Cuenta",
+    "preferences": "Preferencias",
+    "about": "Acerca de",
+    "save": "Guardar Cambios",
+    "reset": "Restablecer Valores"
+  },
+  "errors": {
+    "networkError": "Error de red. Por favor verifica tu conexión.",
+    "apiError": "Error de API. Por favor intenta de nuevo.",
+    "unknown": "Ocurrió un error desconocido."
+  },
+  "common": {
+    "loading": "Cargando...",
+    "retry": "Reintentar",
+    "close": "Cerrar",
+    "ok": "OK",
+    "yes": "Sí",
+    "no": "No"
+  }
+}

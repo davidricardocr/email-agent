@@ -1,0 +1,113 @@
+{
+  "landing": {
+    "title": "Welcome to Email Agent",
+    "subtitle": "Your AI-powered email assistant",
+    "description": "Let AI help you manage your inbox intelligently. Generate professional responses, get smart summaries, and never miss an important email.",
+    "cta": "Configure Your Personal Email Assistant",
+    "features": {
+      "ai": "AI-Powered Responses",
+      "smart": "Smart Notifications",
+      "privacy": "Privacy First"
+    }
+  },
+  "config": {
+    "title": "Configure Your Assistant",
+    "step1": "Email Tone",
+    "step2": "Preferences",
+    "step3": "Ready!",
+    "tone": {
+      "title": "How should your emails sound?",
+      "description": "Choose the default tone for generated responses",
+      "formal": "Formal",
+      "formalDesc": "Professional and business-like",
+      "casual": "Casual",
+      "casualDesc": "Relaxed and conversational",
+      "friendly": "Friendly",
+      "friendlyDesc": "Warm and personable",
+      "professional": "Professional",
+      "professionalDesc": "Balanced and clear"
+    },
+    "preferences": {
+      "language": "Language",
+      "theme": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "notifications": "Enable notifications",
+      "sound": "Notification sound",
+      "interval": "Check emails every (seconds)"
+    },
+    "finish": {
+      "title": "You're all set!",
+      "description": "Your AI email assistant is ready to help you manage your inbox.",
+      "start": "Start Using Email Agent"
+    },
+    "back": "Back",
+    "next": "Next",
+    "finish": "Finish"
+  },
+  "notification": {
+    "newEmail": "New email from {{sender}}",
+    "prepareResponse": "Prepare Response",
+    "dismiss": "Dismiss",
+    "markUnread": "Mark as Unread"
+  },
+  "summary": {
+    "from": "From",
+    "subject": "Subject",
+    "priority": "Priority",
+    "sentiment": "Sentiment",
+    "actionRequired": "Action Required",
+    "suggestedActions": "Suggested Actions",
+    "keyPoints": "Key Points",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "positive": "Positive",
+    "neutral": "Neutral",
+    "negative": "Negative"
+  },
+  "response": {
+    "generating": "Generating response...",
+    "draft": "Draft Response",
+    "edit": "Edit",
+    "send": "Send",
+    "cancel": "Cancel",
+    "sendConfirm": "Are you sure you want to send this email?",
+    "sending": "Sending...",
+    "sent": "Email sent successfully!",
+    "error": "Failed to send email",
+    "charCount": "{{count}} characters"
+  },
+  "chat": {
+    "placeholder": "Tell me how to adjust the response...",
+    "refining": "Refining response...",
+    "instructions": "Chat with AI to refine your response",
+    "examples": [
+      "Make it shorter",
+      "Add more details",
+      "Make it more formal",
+      "Be more friendly"
+    ]
+  },
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "preferences": "Preferences",
+    "about": "About",
+    "save": "Save Changes",
+    "reset": "Reset to Defaults"
+  },
+  "errors": {
+    "networkError": "Network error. Please check your connection.",
+    "apiError": "API error. Please try again.",
+    "unknown": "An unknown error occurred."
+  },
+  "common": {
+    "loading": "Loading...",
+    "retry": "Retry",
+    "close": "Close",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No"
+  }
+}
