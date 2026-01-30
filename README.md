@@ -1,5 +1,7 @@
 # Email Agent
 
+> ⚠️ **Project Status**: Backend 100% functional and tested. Frontend implementation in progress.
+
 An AI-powered email assistant built with LangChain and Electron that helps you manage your inbox intelligently.
 
 ## Features
@@ -141,13 +143,70 @@ CHECK_INTERVAL=60  # seconds
 2. Generate an [App Password](https://myaccount.google.com/apppasswords)
 3. Use the app password in your `.env` file
 
-## Usage
+## Current Status
 
-1. **First Launch**: Configure your email account and API key
-2. **Monitor**: The app runs in the system tray and monitors your inbox
-3. **Respond**: Click on notifications to view emails and generate AI responses
-4. **Refine**: Chat with the AI to adjust the response tone and content
-5. **Send**: Review and send the final response
+### ✅ Backend (Fully Functional)
+
+The backend is **100% complete and tested**:
+
+- 🔌 **Email Service**: IMAP/SMTP clients working with Gmail
+- 🤖 **AI Agent**: Claude Haiku generating intelligent responses
+- 📊 **API**: 10 endpoints (emails + agent operations)
+- ✅ **Tested**: All endpoints verified and working
+
+**Try it now:**
+```bash
+cd backend
+uvicorn app.main:app --reload
+# Visit http://localhost:8000/docs for interactive API docs
+```
+
+**Full documentation**: [Backend Usage Guide](./docs/BACKEND_USAGE.md)
+
+### 🚧 Frontend (In Progress)
+
+Frontend architecture designed and ready for implementation:
+
+- 🎨 **UI**: Electron + React + TypeScript
+- 🌍 **i18n**: English/Spanish support
+- 🎨 **Themes**: Light/Dark mode
+- 💾 **Storage**: Local settings with Electron Store
+- 📍 **Notifications**: Bottom-left popup system
+
+**Architecture**: [Frontend Architecture](./docs/FRONTEND_ARCHITECTURE.md)
+
+## API Examples
+
+### Check for New Emails
+```bash
+curl -X POST http://localhost:8000/api/emails/check
+```
+
+### Generate AI Reply
+```bash
+curl -X POST http://localhost:8000/api/agent/generate-reply \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email_id": "123",
+    "tone": "professional",
+    "additional_context": "Keep it brief"
+  }'
+```
+
+### Get Email Summary
+```bash
+curl -X POST http://localhost:8000/api/agent/summarize \
+  -H "Content-Type: application/json" \
+  -d '{"email_id": "123"}'
+```
+
+**More examples**: [Backend Usage Guide](./docs/BACKEND_USAGE.md)
+
+## Documentation
+
+- 📘 [Backend Usage Guide](./docs/BACKEND_USAGE.md) - Complete API documentation
+- 🏗️ [Frontend Architecture](./docs/FRONTEND_ARCHITECTURE.md) - UI design and components
+- 📝 [Backend README](./backend/README.md) - Backend setup details
 
 ## Development
 
