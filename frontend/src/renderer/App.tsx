@@ -1,80 +1,85 @@
-import { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { LandingPage } from './components/Landing/LandingPage'
+import { ConfigurationWizard } from './components/Landing/ConfigurationWizard'
+import { useSettingsStore } from './store/settingsStore'
+import { useTheme, useEmailMonitor } from './hooks'
+import './i18n/config'
 
-function App() {
-  const [backendStatus, setBackendStatus] = useState<'checking' | 'connected' | 'disconnected'>('checking')
-
-  useEffect(() => {
-    // Check backend connection
-    fetch('http://localhost:8000/health')
-      .then(res => res.json())
-      .then(() => setBackendStatus('connected'))
-      .catch(() => setBackendStatus('disconnected'))
-  }, [])
+// Main App component (placeholder for now)
+const MainApp: React.FC = () => {
+  const { checkForNewEmails } = useEmailMonitor()
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
-      <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center px-4">
-          <h1 className="text-lg font-semibold">Email Agent</h1>
-          <div className="ml-auto flex items-center gap-2">
-            <div className="flex items-center gap-2 text-sm">
-              <div className={`h-2 w-2 rounded-full ${
-                backendStatus === 'connected' ? 'bg-green-500' :
-                backendStatus === 'disconnected' ? 'bg-red-500' :
-                'bg-yellow-500'
-              }`} />
-              <span className="text-muted-foreground">
-                {backendStatus === 'connected' ? 'Connected' :
-                 backendStatus === 'disconnected' ? 'Disconnected' :
-                 'Checking...'}
-              </span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto p-4">
-        <div className="rounded-lg border border-border bg-card p-6">
-          <h2 className="mb-4 text-2xl font-bold">Welcome to Email Agent</h2>
-          <p className="mb-4 text-muted-foreground">
-            Your AI-powered email assistant built with LangChain and Electron.
-          </p>
-
-          {backendStatus === 'disconnected' && (
-            <div className="rounded-md border border-red-500/50 bg-red-500/10 p-4 text-red-500">
-              <p className="font-semibold">Backend Not Connected</p>
-              <p className="text-sm">
-                Make sure the Python backend is running on http://localhost:8000
-              </p>
-              <code className="mt-2 block text-xs">
-                cd backend && uvicorn app.main:app --reload
-              </code>
-            </div>
-          )}
-
-          {backendStatus === 'connected' && (
-            <div className="rounded-md border border-green-500/50 bg-green-500/10 p-4 text-green-500">
-              <p className="font-semibold">Backend Connected</p>
-              <p className="text-sm">
-                Ready to process emails with AI
-              </p>
-            </div>
-          )}
-
-          <div className="mt-6">
-            <h3 className="mb-2 font-semibold">Next Steps:</h3>
-            <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
-              <li>Configure your email account in settings</li>
-              <li>Start monitoring your inbox</li>
-              <li>Generate AI-powered email responses</li>
-              <li>Refine responses with interactive chat</li>
-            </ul>
-          </div>
-        </div>
-      </main>
+    <div className="min-h-screen bg-bg-primary text-text-primary p-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-4">Email Agent</h1>
+        <p className="text-text-secondary mb-4">
+          Your AI-powered email assistant is running!
+        </p>
+        <p className="text-sm text-text-secondary">
+          Monitoring inbox for new emails...
+        </p>
+      </div>
     </div>
+  )
+}
+
+// Protected route that requires configuration
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isConfigured } = useSettingsStore()
+
+  if (!isConfigured) {
+    return <Navigate to="/" replace />
+  }
+
+  return <>{children}</>
+}
+
+// Main App Router
+function App() {
+  const { firstLaunch, isConfigured } = useSettingsStore()
+  const { theme } = useTheme()
+
+  useEffect(() => {
+    // Apply theme on mount
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Landing Page - shown on first launch or not configured */}
+        <Route
+          path="/"
+          element={
+            isConfigured ? (
+              <Navigate to="/app" replace />
+            ) : firstLaunch ? (
+              <LandingPage />
+            ) : (
+              <Navigate to="/config" replace />
+            )
+          }
+        />
+
+        {/* Configuration Wizard */}
+        <Route path="/config" element={<ConfigurationWizard />} />
+
+        {/* Main Application */}
+        <Route
+          path="/app"
+          element={
+            <ProtectedRoute>
+              <MainApp />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch all - redirect to home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
