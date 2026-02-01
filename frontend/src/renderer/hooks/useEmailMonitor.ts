@@ -35,13 +35,11 @@ export const useEmailMonitor = () => {
   
   useEffect(() => {
     if (!isConfigured || !notificationsEnabled) return
-    
-    // Check immediately on mount
-    checkForNewEmails()
-    
-    // Set up interval for periodic checks
+
+    // Don't check immediately on mount to avoid blocking the UI
+    // Only set up interval for periodic checks
     const intervalId = setInterval(checkForNewEmails, checkInterval * 1000)
-    
+
     return () => {
       clearInterval(intervalId)
     }

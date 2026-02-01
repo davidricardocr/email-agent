@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { LandingPage } from './components/Landing/LandingPage'
 import { ConfigurationWizard } from './components/Landing/ConfigurationWizard'
 import { NotificationPopup } from './components/Notification'
@@ -28,8 +28,10 @@ const MainApp: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('inbox')
 
   const handlePrepareResponse = (email: Email) => {
+    console.log('[App] Prepare response for email:', email.id, email.subject)
     setCurrentEmail(email)
     setResponseMode('viewing')
+    console.log('[App] Response mode set to viewing')
   }
 
   const handlePrepareResponseFromNotification = () => {
@@ -100,7 +102,10 @@ const MainApp: React.FC = () => {
 
       {/* Response Viewer */}
       {responseMode === 'viewing' && currentEmail && (
-        <ResponseViewer onEdit={handleEditDraft} onCancel={handleCancel} />
+        <>
+          {console.log('[App] Rendering ResponseViewer for email:', currentEmail.id)}
+          <ResponseViewer onEdit={handleEditDraft} onCancel={handleCancel} />
+        </>
       )}
 
       {/* Response Editor */}
@@ -133,7 +138,7 @@ function App() {
   }, [theme])
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         {/* Landing Page - shown on first launch or not configured */}
         <Route
@@ -165,7 +170,7 @@ function App() {
         {/* Catch all - redirect to home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

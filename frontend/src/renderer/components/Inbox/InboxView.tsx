@@ -23,12 +23,16 @@ export const InboxView: React.FC<InboxViewProps> = ({ onPrepareResponse }) => {
   }, [])
 
   const loadEmails = async () => {
+    console.log('[InboxView] Loading emails...')
     setIsLoading(true)
     try {
       const result = await emailsApi.listEmails(50)
+      console.log('[InboxView] API response:', result)
+      console.log('[InboxView] Number of emails:', result?.length || 0)
       setEmails(result)
+      console.log('[InboxView] Emails state updated')
     } catch (error) {
-      console.error('Failed to load emails:', error)
+      console.error('[InboxView] Failed to load emails:', error)
     } finally {
       setIsLoading(false)
     }
