@@ -120,7 +120,8 @@ class IMAPClient:
             return None
 
         try:
-            status, msg_data = self.imap.fetch(email_id, "(RFC822)")
+            # Use BODY.PEEK[] to fetch without marking as read
+            status, msg_data = self.imap.fetch(email_id, "(BODY.PEEK[])")
 
             if status != "OK":
                 logger.error(f"Failed to fetch email {email_id}")
