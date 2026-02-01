@@ -10,7 +10,7 @@ export const emailsApi = {
 
   // List unread emails
   listEmails: async (limit: number = 20): Promise<Email[]> => {
-    const response = await apiClient.get(`/api/emails?limit=${limit}`)
+    const response = await apiClient.get(`/api/emails/?limit=${limit}`)
     return response.data
   },
 
